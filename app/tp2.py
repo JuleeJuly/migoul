@@ -16,91 +16,73 @@ def affichage_menu():
 
 def choix_menu():
     choix = int(input("Votre choix : "))
+    produit = {}
     match choix:
         case 1:
             afficher_inventaire()
             affichage_menu()
         case 2:
-            ajouter_produit()
+            nom = str(input("Nom : "))
+            quantite = int(input("Quantité : "))
+            prix = float(input("Prix : "))
+            ajouter_produit(nom,quantite,prix)
             affichage_menu()
         case 3:
-            supprimer_produit()
+            print("== SUPPRIMER UN PRODUIT ==")
+            produit = selection_produit()
+            supprimer_produit(produit)
             affichage_menu()
         case 4:
             afficher_inventaire()
-            nb_index = int(input("Quel produit voulez vous modifier ? "))
+            print("== MODIFIER UN PRODUIT ==")
+            produit = selection_produit()
             quantite = int(input("Quantité : "))
-            modifier_quantite(nb_index,quantite)
+            modifier_quantite(produit,quantite)
             affichage_menu()
         case 5:
-            recherche()
+            nom_produit = input("Nom du produit : ")
+            recherche(nom_produit)
             affichage_menu()
         case 6:
             valeur_totale()
             affichage_menu()
         case _:
             exit()
+
+
+def selection_produit():
+    afficher_inventaire()
+    nb = int(input("Quelle produit ? : "))-1
+    return inventaire[nb]
+
 def afficher_inventaire():
-    global inventaire
     print("== VOIR L INVENTAIRE ==")
     for i in inventaire:
-        print("Produit n°",inventaire.index(i)," - Nom : ",i["nom"]," - Quantité : ",i["quantite"]," - Prix : ",i["prix"])
+        print("Produit n°",inventaire.index(i)+1," - Nom : ",i["nom"]," - Quantité : ",i["quantite"]," - Prix : ",i["prix"])
 
-def ajouter_produit():
-    global inventaire
-    produit = {}
+def ajouter_produit(nom,quantite,prix):
     print("== AJOUTER UN PRODUIT ==")
-    produit["nom"] = str(input("Nom : "))
-    produit["quantite"] = int(input("Quantité : "))
-    produit["prix"] = float(input("Prix : "))
-    exist = 0
-    for i in inventaire:
-        # index = inventaire.index(i)
-        if i["nom"] == produit["nom"]:
-            i["quantite"] = produit["quantite"]
-            exist = 1
-            print("Le produit est mis à jour ! ")
-    if exist == 0:
-        inventaire.append(produit)
-        print("Le produit est ajouté ! ")
+    for item in inventaire:
+        if item["nom"] == nom:
+            item["quantite"] = quantite
+            return
+    inventaire.append({"nom":nom,"quantite":quantite,"prix":prix})    
 
-def supprimer_produit():
-    global inventaire
-    print("== SUPPRIMER UN PRODUIT ==")
-    afficher_inventaire()
-    nb = int(input("Quel produit voulez vous supprimer ? "))
-    for i in inventaire:
-        if nb == inventaire.index(i):
-            print(inventaire.index(i))
-            inventaire.pop(nb)
-            print("Le produit est supprimé ! ")
+def supprimer_produit(produit):
+    inventaire.remove(produit)
+    print("Le produit est supprimé ! ")
 
-def modifier_quantite(nb_index,quantite):
-    global inventaire
-    print("== MODIFIER UN PRODUIT ==")
-    exist = 0
-    # inventaire[nb_index]["quantite"]
-    for i in inventaire:
-        if nb_index == inventaire.index(i):
-            i["quantite"] = quantite
-            exist = 1
-    if exist == 0:
-        print("ERREUR ! ")
+def modifier_quantite(produit,quantite):
+    produit["quantite"] = quantite 
 
-def recherche():
-    global inventaire
-    nom_produit = input("Quel est le produit à chercher ? ")
-    exist = 0
-    print(nom_produit)
+def recherche(nom_produit):
     for i in inventaire:
         if i["nom"] == nom_produit:
-            exist = 1
             print("Numero de produit : ",inventaire.index(i)," Nom : ",i["nom"]," Quantité : ",i["quantite"]," Prix : ",i["prix"])
-    if exist == 0:
-        print("ERREUR ! ")
+            return
+    print("Le produit n'existe pas !")
 
 def valeur_totale():
-    global inventaire
     total = 0
     for i in inventaire:
         total += i["quantite"]*i["prix"]
