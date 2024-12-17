@@ -2,7 +2,7 @@ from classes.Objet import Objet
 import random
 
 class Personnage():
-    def __init__(self,nom,classe,niveau,pdv,max_pdv,inventaire):
+    def __init__(self,nom,classe,niveau,pdv,max_pdv):
         self.nom = nom
         self.classe = classe
         self.niveau = niveau
@@ -26,7 +26,7 @@ class Personnage():
             if element.nom == nom:
                 element.quantite += quantite
                 return
-            self.list_objet.append(objet)
+        self.list_objet.append(objet)
 
     def afficher_details(self):
         self.to_string()

@@ -1,11 +1,10 @@
 from classes.Combattant import Combattant
 from classes.Personnage import Personnage
 
-
 def creation_personnage():
     nom = input("Nom : ")
     classe = input("Classe : ")
-    personnage = Personnage(nom,classe,1,30,30,"inventaire")
+    personnage = Personnage(nom,classe,1,30,30)
     return personnage
 
 def affichage_menu():
@@ -71,4 +70,16 @@ def choix_menu():
         print("Erreur, réessayez")
 
 combattant = Combattant()
+perso1 = Personnage("Jean","Mage",12,180,210)
+perso2 = Personnage("Albert","Barbare",10,220,250)
+perso1.ajouter_objet_inventaire("Tasse",1)
+perso1.ajouter_objet_inventaire("Baguette",2)
+perso1.ajouter_objet_inventaire("Tente",1)
+perso1.ajouter_objet_inventaire("Livre",5)
+perso2.ajouter_objet_inventaire("Chaussette",3)
+perso2.ajouter_objet_inventaire("Pomme",2)
+perso2.ajouter_objet_inventaire("Poulet",1)
+perso2.ajouter_objet_inventaire("Sel",5)
+combattant.ajout_personnage(perso1)
+combattant.ajout_personnage(perso2)
 affichage_menu()
